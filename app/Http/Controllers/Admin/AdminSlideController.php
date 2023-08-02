@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminRequestSlide;
@@ -56,7 +55,6 @@ class AdminSlideController extends Controller
         $update = $slide->update($data);
         return redirect()->back();
     }
-
     public function active($id)
     {
         $slide              = Slide::find($id);
@@ -65,12 +63,10 @@ class AdminSlideController extends Controller
 
         return redirect()->back();
     }
-
     public function delete($id)
     {
         $slide              = Slide::find($id);
         if ($slide) $slide->delete();
-
         return redirect()->back();
     }
 }
