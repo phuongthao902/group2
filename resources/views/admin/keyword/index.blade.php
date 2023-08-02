@@ -3,11 +3,13 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>Quản lý từ khoá</h1>
+
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="{{  route('admin.keyword.index') }}"> Keyword</a></li>
             <li class="active"> List </li>
         </ol>
+
     </section>
     <!-- Main content -->
     <section class="content">
@@ -38,7 +40,7 @@
                                             <td>
                                                 @if ($keyword->k_hot == 1)
                                                     <a href="{{ route('admin.keyword.hot', $keyword->id) }}" class="label label-info">Hot</a>
-                                                @else 
+                                                @else
                                                     <a href="{{ route('admin.keyword.hot', $keyword->id) }}" class="label label-default">None</a>
                                                 @endif
                                             </td>
