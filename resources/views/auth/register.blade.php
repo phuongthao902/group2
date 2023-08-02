@@ -33,7 +33,7 @@
                 </div>
                 <div class="form-group">
                     <label for="name">Email <span class="cRed">(*)</span></label>
-                    <input name="email" id="name" type="email" value="{{  old('email') }}" class="form-control" placeholder="nguyenvana@gmail.com">
+                    <input name="email" id="name" type="text" value="{{  old('email') }}" class="form-control" placeholder="nguyenvana@gmail.com">
                     @if ($errors->first('email'))
                         <span class="text-danger">{{ $errors->first('email') }}</span>
                     @endif
