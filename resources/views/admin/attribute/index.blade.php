@@ -28,6 +28,7 @@
                                     <th>Ngày tạo</th>
                                     <th>Hành động</th>
                                 </tr>
+
                                 @if (isset($attibutes))
                                     @foreach($attibutes as $key => $attribute)
                                         <tr>
@@ -44,6 +45,7 @@
                                         </tr>
                                     @endforeach
                                 @endif
+
                             </tbody>
                         </table>
                     </div>
