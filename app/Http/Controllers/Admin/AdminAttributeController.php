@@ -43,6 +43,8 @@ class AdminAttributeController extends Controller
     {
         $attribute = Attribute::find($id);
         $types = Type::all();
+        $categories = array('category1', 'category2', 'category3');
+        $my_array = compact('categories');
         return view('admin.attribute.update', compact('attribute', 'categories', 'types'));
     }
 

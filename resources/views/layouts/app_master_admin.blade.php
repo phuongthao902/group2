@@ -144,6 +144,8 @@
                                 @endif
                             </li>
                         @endforeach
+                        <li><a href="{{  route('admin.attribute.index') }}"><i class="fa fa-circle-o text-red"></i> <span>Quản lý dữ liệu</span></a></li>
+
                         <li><a href="{{  route('xemdonhang') }}"><i class="fa fa-circle-o text-red"></i> <span>Đơn hàng</span></a></li>
                         <li><a href="{{  route('admin.slide.index') }}"><i class="fa fa-circle-o text-red"></i> <span>Slide</span></a></li>
                         <li><a href="{{  route('admin.event.index') }}"><i class="fa fa-circle-o text-red"></i> <span>Sự kiện</span></a></li>
