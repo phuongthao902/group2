@@ -26,13 +26,15 @@ class AdminAttributeController extends Controller
     public function create()
     {
         $types = Type::all();
-        return view('admin.attribute.create',compact('categories', 'types'));
+        $categories = array('category1', 'category2', 'category3');
+        $my_array = compact('categories');
+        return view('admin.attribute.create', compact('categories', 'types'));
     }
 
     public function store(AdminRequestAttribute $request)
     {
         $data = $request->except('_token');
-        $data['atb_slug']     = Str::slug($request->atb_name);
+        $data['atb_slug'] = Str::slug($request->atb_name);
         $data['created_at'] = Carbon::now();
 
         $id = Attribute::insertGetId($data);
@@ -43,12 +45,15 @@ class AdminAttributeController extends Controller
     {
         $attribute = Attribute::find($id);
         $types = Type::all();
+        $categories = array('category1', 'category2', 'category3');
+        $my_array = compact('categories');
+
         return view('admin.attribute.update', compact('attribute', 'categories', 'types'));
     }
 
     public function update(AdminRequestAttribute $request, $id)
     {
-        $attribute          = Attribute::find($id);
+        $attribute = Attribute::find($id);
         $attribute->atb_name = $request->atb_name;
         $attribute->atb_slug = Str::slug($request->atb_name);
         $attribute->atb_type_id = $request->atb_type_id;
@@ -59,8 +64,9 @@ class AdminAttributeController extends Controller
 
     public function delete($id)
     {
-        $attribute          = Attribute::find($id);
-        if ($attribute) $attribute->delete();
+        $attribute = Attribute::find($id);
+        if ($attribute)
+            $attribute->delete();
 
         return redirect()->back();
     }
