@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use Illuminate\Http\Request;
 use App\Http\Requests\AdminRequestCategory;
 use Illuminate\Support\Str;
@@ -71,7 +69,6 @@ class AdminCategoryController extends AdminController
         $category = Category::find($id);
         $category->c_status = ! $category->c_status;
         $category->save();
-
         return redirect()->back();
     }
 
@@ -80,7 +77,6 @@ class AdminCategoryController extends AdminController
         $category = Category::find($id);
         $category->c_hot = ! $category->c_hot;
         $category->save();
-
         return redirect()->back();
     }
 
@@ -88,7 +84,6 @@ class AdminCategoryController extends AdminController
     {
         $category = Category::find($id);
         if ($category) $category->delete();
-
         return redirect()->back();
     }
 
@@ -96,7 +91,6 @@ class AdminCategoryController extends AdminController
     {
         $categories = Category::where('c_status', Category::STATUS_ACTIVE)
             ->select('id', 'c_parent_id', 'c_name')->get();
-
         $listCategoriesSort = [];
         Category::recursive($categories, $parent = 0, $level = 1, $listCategoriesSort);
         return $listCategoriesSort;
