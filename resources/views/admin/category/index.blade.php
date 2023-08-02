@@ -14,10 +14,12 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header with-border">
+
                 <div class="box-header">
                     <h3 class="box-title"><a href="{{ route('admin.category.create') }}" class="btn btn-primary">Thêm mới <i class="fa fa-plus"></i></a></h3>
                </div>
-                <div class="box-body">
+
+               <div class="box-body">
                    <div class="col-md-12">
                         <table class="table">
                             <tbody>
