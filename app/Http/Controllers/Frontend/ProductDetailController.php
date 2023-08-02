@@ -99,15 +99,15 @@ class ProductDetailController extends FrontendController
         $id        = array_pop($arraySlug);
         if ($id) {
 
-            //1.Lấy sản phẩm
+                    #Lấy thông tin sp
             $product = Product::with('category:id,c_name,c_slug', 'keywords')->findOrFail($id);
 
-            //2. Lấy đánh giá by ID và điều kiện lọc
+                    //2. Xử lý view
 
             $ratings = Rating::with('user:id,name')
                 ->where('r_product_id', $id);
             if ($number = $request->s) $ratings->where('r_number', $number);
-
+                   // 3. Lấy đánh giá
             $ratings = $ratings->orderByDesc('id')
                 ->paginate(5);
 
@@ -116,8 +116,7 @@ class ProductDetailController extends FrontendController
                 $html  = view('frontend.pages.product_detail.include._inc_list_reviews', compact('ratings', 'query'))->render();
                 return response(['html' => $html]);
             }
-
-            //3 Hiển thị thông kê
+           
             $ratingsDashboard = Rating::groupBy('r_number')
                 ->where('r_product_id', $id)
                 ->select(\DB::raw('count(r_number) as count_number'), \DB::raw('sum(r_number) as total'))
