@@ -2,7 +2,7 @@
 @section('content')
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>Thêm mới từ khoá</h1>
+        <h1> Thêm mới từ khoá </h1>
         <ol class="breadcrumb">
             <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
             <li><a href="{{  route('admin.keyword.index') }}"> Keyword</a></li>
@@ -27,7 +27,7 @@
                             </div>
                         </div>
                         <div class="col-sm-8">
-                            <label for="name">Mô tả </label>
+                            <label for="name">Mô tả</label>
                             <textarea class="form-control" name="k_description" placeholder="Description ..."></textarea>
                             @if ($errors->first('k_description'))
                                 <span class="text-danger">{{ $errors->first('k_description') }}</span>
@@ -37,10 +37,10 @@
                             <div class="box-footer text-center "  style="margin-top: 20px;">
                                 <a href="{{ route('admin.keyword.index') }}" class="btn btn-danger">
                                 Quay lại <i class="fa fa-undo"></i></a>
-                                <button type="submit" class="btn btn-success">Lưu dữ liệu <i class="fa fa-save"></i></button>
+                                <button type="submit" class="btn btn-success">Lưu dữ liệu<i class="fa fa-save"></i></button>
                             </div>
                         </div>
-                    </form>  
+                    </form>
                 </div>
             </div>
             <!-- /.box -->
