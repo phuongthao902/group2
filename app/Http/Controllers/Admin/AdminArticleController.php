@@ -29,7 +29,7 @@ class AdminArticleController extends Controller
         return view('admin.article.create',compact('menus'));
     }
 
-    public function store(AdminRequestArticle $request)
+    public function store (AdminRequestArticle $request)
     {
         $data = $request->except('_token','a_avatar','a_position_1','a_position_2');
         $data['a_slug']     = Str::slug($request->a_name);
@@ -42,15 +42,15 @@ class AdminArticleController extends Controller
         if ($request->a_position_2) {
             $data['a_position_2'] = 1;
         }
-        
+
         if ($request->a_avatar) {
             $image = upload_image('a_avatar');
-            if ($image['code'] == 1) 
+            if ($image['code'] == 1)
                 $data['a_avatar'] = $image['name'];
-        } 
+        }
 
         $id = Article::insertGetId($data);
-    
+
         return redirect()->back();
     }
 
@@ -82,12 +82,12 @@ class AdminArticleController extends Controller
 
         if ($request->a_avatar) {
             $image = upload_image('a_avatar');
-            if ($image['code'] == 1) 
+            if ($image['code'] == 1)
                 $data['a_avatar'] = $image['name'];
-        } 
+        }
 
         $id = $article->update($data);
-    
+
         return redirect()->back();
     }
 

@@ -1,7 +1,5 @@
 <?php
-
 namespace App\Http\Controllers\Admin;
-
 use App\HelpersClass\Date;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,7 +19,6 @@ class AdminStatisticalController extends Controller
         // Tông sản phẩm
         $totalProducts = \DB::table('products')->select('id')->count();
 
-
         // Tông đánh giá
         $totalRatings = \DB::table('ratings')->select('id')->count();
 
@@ -29,7 +26,6 @@ class AdminStatisticalController extends Controller
         $transactions = Transaction::orderByDesc('id')
                         ->limit(10)
                         ->get();
-
         // Top sản phẩm xem nhiều
         $topViewProducts = Product::orderByDesc('pro_view')
             ->limit(10)
@@ -103,9 +99,6 @@ class AdminStatisticalController extends Controller
             }
             $arrRevenueTransactionMonthDefault[] = (int)$total;
         }
-
-
-
         $viewData = [
             'totalTransactions'          => $totalTransactions,
             'totalUsers'                 => $totalUsers,

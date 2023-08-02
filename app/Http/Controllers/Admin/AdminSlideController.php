@@ -28,9 +28,9 @@ class AdminSlideController extends Controller
 
         if ($request->sd_avatar) {
             $image = upload_image('sd_avatar');
-            if ($image['code'] == 1) 
+            if ($image['code'] == 1)
                 $data['sd_image'] = $image['name'];
-        } 
+        }
 
         $id = Slide::insertGetId($data);
         return redirect()->back();
@@ -49,14 +49,13 @@ class AdminSlideController extends Controller
 
         if ($request->sd_avatar) {
             $image = upload_image('sd_avatar');
-            if ($image['code'] == 1) 
+            if ($image['code'] == 1)
                 $data['sd_image'] = $image['name'];
-        } 
+        }
 
         $update = $slide->update($data);
         return redirect()->back();
     }
-
 
     public function active($id)
     {
@@ -74,6 +73,4 @@ class AdminSlideController extends Controller
 
         return redirect()->back();
     }
-
-
 }
