@@ -28,17 +28,17 @@ class ShoppingCartController extends Controller
         return view('frontend.pages.shopping.index', $viewData);
     }
 
-    /**
-     * Thêm giỏ hàng
-     * */
+    
+     # Thêm giỏ hàng
+    
     public function add(Request $request, $id)
     {
         $product = Product::find($id);
 
-        //1. Kiểm tra tồn tại sản phẩm
+        #1. Kiểm tra tồn tại sản phẩm
         if (!$product) return redirect()->to('/');
 
-        // 2. Kiểm tra số lượng sản phẩm
+        # 2. Kiểm tra số lượng sản phẩm
         if ($product->pro_number < 1) {
             //4. Thông báo
             \Session::flash('toastr', [
