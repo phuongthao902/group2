@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers\Admin;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Producer;
@@ -54,8 +53,6 @@ class AdminProducerController extends Controller
         Producer::insertGetId($data);
         return redirect()->back();
     }
-
-
     /**
      * Show the form for editing the specified resource.
      *
@@ -81,7 +78,7 @@ class AdminProducerController extends Controller
      */
     public function update(AdminProducerRequest $request, $id)
     {
-        //
+
         $producer = Producer::find($id);
         $data               = $request->except('_token');
         $data['pdr_slug']   = Str::slug($request->pdr_name);
@@ -98,7 +95,6 @@ class AdminProducerController extends Controller
      */
     public function delete($id)
     {
-        //
         $producer   = Producer::find($id);
         if ($producer) $producer->delete();
         return redirect()->back();
