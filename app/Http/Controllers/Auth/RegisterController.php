@@ -54,6 +54,12 @@ class RegisterController extends Controller
     public function postRegister(RequestRegister $request)
     {
         $data               = $request->except("_token");
+
+        // Kiểm tra xem email có chứa "@" và "." không
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            return redirect()->back()->withErrors(['email' => 'Email không hợp lệ.']);
+        }
+        
         $data['password']   =  Hash::make($data['password']);
         $data['created_at'] = Carbon::now();
         $id = User::insertGetId($data);
