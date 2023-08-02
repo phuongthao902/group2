@@ -43,10 +43,12 @@
                             </div>
                         </div>
                         <div class="col-sm-4">
+
                             <div class="box box-warning">
                                 <div class="box-header with-border">
                                     <h3 class="box-title">Ảnh</h3>
                                 </div>
+
                                 <div class="box-body block-images">
                                     <div style="margin-bottom: 10px">
                                         <img src="/images/no-image.jpg" onerror="this.onerror=null;this.src='/images/no-image.jpg';" alt="" class="img-thumbnail" style="width: 200px;height: 200px;">
