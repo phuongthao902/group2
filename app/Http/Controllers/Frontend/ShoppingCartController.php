@@ -171,43 +171,42 @@ class ShoppingCartController extends Controller
      * */
     public function delete(Request $request, $rowId)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             \Cart::remove($rowId);
             return response([
                 'totalMoney' => \Cart::subtotal(0),
-                'type'       => 'success',
-                'message'    => 'Xoá sản phẩm khỏi đơn hàng thành công'
+                'type' => 'success',
+                'message' => 'Xoá sản phẩm khỏi đơn hàng thành công'
             ]);
         }
     }
-
+    
     public function cartDiscount(Request $request)
     {
-        if ($request->ajax())
-        {
+        if ($request->ajax()) {
             $discount = DiscountCode::where('d_code', $request->discount_code)->first();
-
+    
             if ($discount->d_number_code == 0) {
                 return response([
                     'totalMoney' => \Cart::subtotal(0),
-                    'type'       => 'errors',
-                    'message'    => 'Số lượng mã giảm giá đã hết'
+                    'type' => 'errors',
+                    'message' => 'Số lượng mã giảm giá đã hết'
                 ]);
             }
-
+    
             \Cart::setGlobalDiscount($discount->d_percentage);
-
+    
             return response([
-                'totalMoney' => \Cart::subtotal(0) ,
+                'totalMoney' => \Cart::subtotal(0),
                 'percentage' => $discount->d_percentage,
-                'type'       => 'success',
-                'message'    => 'Áp dụng mã giảm giá thành công'
+                'type' => 'success',
+                'message' => 'Áp dụng mã giảm giá thành công'
             ]);
         }
     }
-
-    public function checkTimeDiscount($dateThi) {
+    
+    public function checkTimeDiscount($dateThi)
+    {
         $currentTime = Carbon::now();
         $datetime = new Carbon($dateThi);
         $checkTimeBDThi = Carbon::parse($currentTime)->diffInMinutes($datetime, false);
