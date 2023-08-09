@@ -216,15 +216,15 @@ class ShoppingCartController extends Controller
 
     public function createPayment(Request $request)
     {
-        $vnp_TxnRef = randString(15); //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_TxnRef = randString(15);
         $vnp_OrderInfo = $request->order_desc;
         $vnp_OrderType = $request->order_type;
         $vnp_Amount = str_replace(',', '', \Cart::subtotal(0)) * 100;
         $vnp_Locale = $request->language;
         $vnp_BankCode = $request->bank_code;
         $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
-
-        $inputData = array(
+    
+        $inputData = [
             "vnp_Version" => "2.0.0",
             "vnp_TmnCode" => env('VNP_TMN_CODE'),
             "vnp_Amount" => $vnp_Amount,
@@ -237,32 +237,23 @@ class ShoppingCartController extends Controller
             "vnp_OrderType" => $vnp_OrderType,
             "vnp_ReturnUrl" => route('vnpay.return'),
             "vnp_TxnRef" => $vnp_TxnRef,
-        );
-
+        ];
+    
         if (isset($vnp_BankCode) && $vnp_BankCode != "") {
             $inputData['vnp_BankCode'] = $vnp_BankCode;
         }
         ksort($inputData);
-
-        $query = "";
-        $i = 0;
-        $hashdata = "";
-        foreach ($inputData as $key => $value) {
-            if ($i == 1) {
-                $hashdata .= '&' . $key . "=" . $value;
-            } else {
-                $hashdata .= $key . "=" . $value;
-                $i = 1;
-            }
-            $query .= urlencode($key) . "=" . urlencode($value) . '&';
-        }
-        
-        $vnp_Url = env('VNP_URL') . "?" . $query;
+    
+        $query = http_build_query($inputData);
+    
+        $hashdata = http_build_query($inputData, '', '&');
         if (env('VNP_HASH_SECRET')) {
             $vnpSecureHash = hash('sha256', env('VNP_HASH_SECRET') . $hashdata);
-            $vnp_Url .= 'vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
+            $query .= '&vnp_SecureHashType=SHA256&vnp_SecureHash=' . $vnpSecureHash;
         }
-
+    
+        $vnp_Url = env('VNP_URL') . "?" . $query;
+    
         return redirect($vnp_Url);
     }
 
