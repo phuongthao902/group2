@@ -79,50 +79,51 @@ class ProductDetailController extends FrontendController
     public function getListRatingProduct(Request $request, $slug)
     {
         $arraySlug = explode('-', $slug);
-        $id        = array_pop($arraySlug);
-        if ($id) {
-
-                    #Lấy thông tin sp
-            $product = Product::with('category:id,c_name,c_slug', 'keywords')->findOrFail($id);
-
-                    //2. Xử lý view
-
-            $ratings = Rating::with('user:id,name')
-                ->where('r_product_id', $id);
-            if ($number = $request->s) $ratings->where('r_number', $number);
-                   // 3. Lấy đánh giá
-            $ratings = $ratings->orderByDesc('id')
-                ->paginate(5);
-
-            if ($request->ajax()) {
-                $query = $request->query();
-                $html  = view('frontend.pages.product_detail.include._inc_list_reviews', compact('ratings', 'query'))->render();
-                return response(['html' => $html]);
-            }
-           
-            $ratingsDashboard = Rating::groupBy('r_number')
-                ->where('r_product_id', $id)
-                ->select(\DB::raw('count(r_number) as count_number'), \DB::raw('sum(r_number) as total'))
-                ->addSelect('r_number')
-                ->get()->toArray();
-
-            $ratingDefault = $this->mapRatingDefault();
-
-            foreach ($ratingsDashboard as $key => $item) {
-                $ratingDefault[$item['r_number']] = $item;
-            }
-
-            $viewData = [
-                'product'       => $product,
-                'ratings'       => $ratings,
-                'ratingDefault' => $ratingDefault,
-                'query'         => $request->query(),
-                'title_page'    => "Review, đánh gía sản phẩm " . $product->pro_name,
-            ];
-
-            return view('frontend.pages.product_detail.product_ratings', $viewData);
+        $id = array_pop($arraySlug);
+    
+        if (!$id) {
+            return redirect()->to('/');
         }
-        return redirect()->to('/');
+    
+        $product = Product::with('category:id,c_name,c_slug', 'keywords')->findOrFail($id);
+    
+        $ratingsQuery = Rating::with('user:id,name')
+            ->where('r_product_id', $id);
+    
+        if ($number = $request->s) {
+            $ratingsQuery->where('r_number', $number);
+        }
+    
+        $ratings = $ratingsQuery->orderByDesc('id')
+            ->paginate(5);
+    
+        if ($request->ajax()) {
+            $query = $request->query();
+            $html = view('frontend.pages.product_detail.include._inc_list_reviews', compact('ratings', 'query'))->render();
+            return response(['html' => $html]);
+        }
+    
+        $ratingsDashboard = Rating::groupBy('r_number')
+            ->where('r_product_id', $id)
+            ->select(\DB::raw('count(r_number) as count_number'), \DB::raw('sum(r_number) as total'))
+            ->addSelect('r_number')
+            ->get()->toArray();
+    
+        $ratingDefault = $this->mapRatingDefault();
+    
+        foreach ($ratingsDashboard as $key => $item) {
+            $ratingDefault[$item['r_number']] = $item;
+        }
+    
+        $viewData = [
+            'product' => $product,
+            'ratings' => $ratings,
+            'ratingDefault' => $ratingDefault,
+            'query' => $request->query(),
+            'title_page' => "Review, đánh giá sản phẩm " . $product->pro_name,
+        ];
+    
+        return view('frontend.pages.product_detail.product_ratings', $viewData);
     }
 
     private function mapRatingDefault()
