@@ -136,20 +136,18 @@ class ProductDetailController extends FrontendController
                 "r_number"     => 0
             ];
         }
-
-
         return $ratingDefault;
     }
+    
     private function getProductSuggests($categoriID)
     {
-        $products = Product::where([
+        return Product::where([
             'pro_active'      => 1,
             'pro_category_id' => $categoriID
         ])
-            ->orderByDesc('id')
-            ->select('id', 'pro_name', 'pro_slug', 'pro_sale', 'pro_avatar', 'pro_price', 'pro_review_total', 'pro_review_star')
-            ->limit(12)
-            ->get();
-            return $products;
-        }
+        ->orderByDesc('id')
+        ->select('id', 'pro_name', 'pro_slug', 'pro_sale', 'pro_avatar', 'pro_price', 'pro_review_total', 'pro_review_star')
+        ->limit(12)
+        ->get();
+    }
     }   
