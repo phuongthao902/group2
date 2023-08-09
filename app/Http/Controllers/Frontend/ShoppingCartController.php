@@ -31,51 +31,45 @@ class ShoppingCartController extends Controller
     
      # Thêm giỏ hàng
     
-    public function add(Request $request, $id)
-    {
-        $product = Product::find($id);
-
-        #1. Kiểm tra tồn tại sản phẩm
-        if (!$product) return redirect()->to('/');
-
-        # 2. Kiểm tra số lượng sản phẩm
-        if ($product->pro_number < 1) {
-            //4. Thông báo
-            \Session::flash('toastr', [
-                'type'    => 'error',
-                'message' => 'Số lượng sản phẩm không đủ'
-            ]);
-
-            return redirect()->back();
-        }
-
-        // 3. Thêm sản phẩm vào giỏ hàng
-        \Cart::add([
-            'id'      => $product->id,
-            'name'    => $product->pro_name,
-            'qty'     => 1,
-            'price'   => number_price($product->pro_price, $product->pro_sale),
-            'weight'  => '1',
-            'options' => [
-                'sale'      => $product->pro_sale,
-                'price_old' => $product->pro_price,
-                'image'     => $product->pro_avatar,
-                'size'      => $request->size,
-                'color'      => $request->color,
-                'gender'      => $request->gender,
-            ]
-        ]);
-
-        //4. Thông báo
-        \Session::flash('toastr', [
-            'type'    => 'success',
-            'message' => 'Thêm giỏ hàng thành công'
-        ]);
-
-        return response([
-            'size' => $request->size
-        ]);
-    }
+     public function add(Request $request, $id)
+     {
+         $product = Product::find($id);
+     
+         if (!$product) {
+             return redirect()->to('/');
+         }
+     
+         if ($product->pro_number < 1) {
+             \Session::flash('toastr', [
+                 'type' => 'error',
+                 'message' => 'Số lượng sản phẩm không đủ'
+             ]);
+             return redirect()->back();
+         }
+     
+         \Cart::add([
+             'id' => $product->id,
+             'name' => $product->pro_name,
+             'qty' => 1,
+             'price' => number_price($product->pro_price, $product->pro_sale),
+             'weight' => '1',
+             'options' => [
+                 'sale' => $product->pro_sale,
+                 'price_old' => $product->pro_price,
+                 'image' => $product->pro_avatar,
+                 'size' => $request->size,
+                 'color' => $request->color,
+                 'gender' => $request->gender,
+             ]
+         ]);
+     
+         \Session::flash('toastr', [
+             'type' => 'success',
+             'message' => 'Thêm giỏ hàng thành công'
+         ]);
+     
+         return response(['size' => $request->size]);
+     }
 
     public function postPay(Request $request)
     {
