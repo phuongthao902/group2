@@ -136,36 +136,35 @@ class ShoppingCartController extends Controller
          }
      }
 
-    public function update(Request $request, $id)
-    {
-        if ($request->ajax()) {
-
-            //1.Lấy tham số
-            $qty       = $request->qty ?? 1;
-            $idProduct = $request->idProduct;
-            $product   = Product::find($idProduct);
-
-            //2. Kiểm tra tồn tại sản phẩm
-            if (!$product) return response(['messages' => 'Không tồn tại sản sản phẩm cần update']);
-
-            //3. Kiểm tra số lượng sản phẩm còn ko
-            if ($product->pro_number < $qty) {
-                return response([
-                    'messages' => 'Số lượng cập nhật không đủ',
-                    'error'    => true
-                ]);
-            }
-
-            //4. Update
-            \Cart::update($id, $qty);
-
-            return response([
-                'messages'   => 'Cập nhật thành công',
-                'totalMoney' => \Cart::subtotal(0),
-                'totalItem'  => number_format(number_price($product->pro_price, $product->pro_sale) * $qty, 0, ',', '.')
-            ]);
-        }
-    }
+     public function update(Request $request, $id)
+     {
+         if ($request->ajax()) {
+             $qty = $request->qty ?? 1;
+             $idProduct = $request->idProduct;
+             $product = Product::find($idProduct);
+     
+             if (!$product) {
+                 return response(['messages' => 'Không tồn tại sản phẩm cần cập nhật']);
+             }
+     
+             if ($product->pro_number < $qty) {
+                 return response([
+                     'messages' => 'Số lượng cập nhật không đủ',
+                     'error' => true
+                 ]);
+             }
+     
+             \Cart::update($id, $qty);
+     
+             $totalItem = number_format(number_price($product->pro_price, $product->pro_sale) * $qty, 0, ',', '.');
+     
+             return response([
+                 'messages' => 'Cập nhật thành công',
+                 'totalMoney' => \Cart::subtotal(0),
+                 'totalItem' => $totalItem
+             ]);
+         }
+     }
 
     /**
      *  Xoá sản phẩm đơn hang
